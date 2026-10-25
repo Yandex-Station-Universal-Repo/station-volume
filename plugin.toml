@@ -1,0 +1,16 @@
+id = "station-volume"
+name = "Station volume"
+version = "1.0.0"
+entry = "station-volume.sh"
+description = "Громкость станции через Quasar, как кнопки: get, watch, set N"
+permissions = ["exec"]
+
+[launch]
+kind = "binary"
+mode = "oneshot"
+path = "station-volume.sh"
+interpreter = "sh"
+
+[compatibility]
+models = ["yandexmidi"]
+features = ["arch.aarch64"]
