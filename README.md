@@ -6,7 +6,7 @@ YAM-пакет для Яндекс Станции Midi: громкость ст�
 yam install station-volume
 yam enable station-volume
 yam run station-volume -- get            # текущий процент
-yam run station-volume -- set 45         # шаг 5%, ждёт подтверждения от Quasar
+yam run -d station-volume -- watch       # в фоне; изменения смотреть в yam logs station-volume, остановить yam stop station-volume
 yam run station-volume -- watch          # изменения пишутся в yam logs, до yam stop
 ```
 
