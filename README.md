@@ -6,8 +6,8 @@ YAM-пакет для Яндекс Станции Midi: громкость ст�
 yam install station-volume
 yam enable station-volume
 yam run station-volume -- get            # текущий процент
-yam run -d station-volume -- watch       # в фоне; изменения смотреть в yam logs station-volume, остановить yam stop station-volume
-yam run station-volume -- watch          # изменения пишутся в yam logs, до yam stop
+yam run station-volume -- set 45         # шаг 5%, ждёт подтверждения от Quasar
+yam run -d station-volume -- watch      # в фоне: изменения в yam logs station-volume, остановить yam stop station-volume
 ```
 
 Чтение работает везде, где в `/system/vendor/quasar/quasar.cfg` есть порты `stereo_pair` и `iohub_clients`. Запись разрешена только на проверенной сборке `0.369.1.46.4778262955.20261013.160`; на другой нужен `set N --force`.
