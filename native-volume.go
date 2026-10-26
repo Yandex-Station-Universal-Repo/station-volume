@@ -18,8 +18,12 @@ import (
 const configPath = "/system/vendor/quasar/quasar.cfg"
 
 type ports struct {
-	State struct{ Port int `json:"port"` } `json:"stereo_pair"`
-	Control struct{ Port int `json:"port"` } `json:"iohub_clients"`
+	State struct {
+		Port int `json:"port"`
+	} `json:"stereo_pair"`
+	Control struct {
+		Port int `json:"port"`
+	} `json:"iohub_clients"`
 }
 
 type stream struct {
@@ -225,11 +229,23 @@ func setFrame(percent int) []byte {
 }
 
 func run() error {
-	if len(os.Args) < 2 {
+	return runWith(os.Args[1:], configPath, os.Stdout)
+}
+func runWith(args []string, path string, out io.Writer) error {
+	if len(args) < 1 {
 		return errors.New("usage: native-volume get|watch|set PERCENT")
 	}
+	if (args[0] == "get" || args[0] == "watch") && len(args) != 1 {
+		return errors.New("unexpected arguments")
+	}
+	if args[0] != "get" && args[0] != "watch" && args[0] != "set" {
+		return errors.New("unsupported volume command")
+	}
+	if args[0] == "set" && len(args) != 2 {
+		return errors.New("set requires a percentage")
+	}
 	var cfg ports
-	file, err := os.Open(configPath)
+	file, err := os.Open(path)
 	if err != nil {
 		return err
 	}
@@ -248,11 +264,11 @@ func run() error {
 	if err != nil {
 		return fmt.Errorf("native volume state: %w", err)
 	}
-	switch os.Args[1] {
+	switch args[0] {
 	case "get":
-		printVolume(initial)
+		fmt.Fprintln(out, strconv.FormatFloat(initial, 'f', -1, 32))
 	case "watch":
-		printVolume(initial)
+		fmt.Fprintln(out, strconv.FormatFloat(initial, 'f', -1, 32))
 		s.conn.SetReadDeadline(time.Time{})
 		last := initial
 		for {
@@ -261,15 +277,15 @@ func run() error {
 				return err
 			}
 			if math.Abs(value-last) > 0.01 {
-				printVolume(value)
+				fmt.Fprintln(out, strconv.FormatFloat(value, 'f', -1, 32))
 				last = value
 			}
 		}
 	case "set":
-		if len(os.Args) != 3 {
+		if len(args) != 2 {
 			return errors.New("set requires a percentage from 0 to 100")
 		}
-		value, err := strconv.ParseFloat(os.Args[2], 64)
+		value, err := strconv.ParseFloat(args[1], 64)
 		if err != nil || math.IsNaN(value) || math.IsInf(value, 0) || value < 0 || value > 100 {
 			return errors.New("volume must be a percentage from 0 to 100")
 		}
