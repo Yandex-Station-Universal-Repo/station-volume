@@ -1,9 +1,10 @@
 # station-volume
 
-Локальное предложение для интеграций: `station-volume.sh check-write` проверяет
-существующий firmware allowlist без изменения громкости или IPC-записи. Возвращает
-`ok` при разрешённой записи, иначе ненулевой код. Подробности и тесты:
-[LOCAL_REVIEW.md](LOCAL_REVIEW.md). Model/firmware allowlists не расширены.
+Интеграции могут проверить запись без побочных эффектов: `station-volume.sh
+check-write` сверяет точную модель/firmware с существующим allowlist, не открывая
+IPC и не меняя громкость. Возвращает `ok` при разрешённой записи, иначе ненулевой
+код. Подробности, проверенные сборки и тесты:
+[docs/INTEGRATION.md](docs/INTEGRATION.md).
 
 YAM-пакет для Яндекс Станции Midi: громкость станции через Quasar IPC, той же директивой `volume_set`, что шлют кнопки. Quasar принимает уровень, кольцо его показывает, приложение синхронизируется. `amixer set Master` так не умеет: на Midi это регулятор только звука Алисы, и Quasar его перезаписывает ([nyakokitsu/yam#5](https://github.com/nyakokitsu/yam/issues/5)).
 
