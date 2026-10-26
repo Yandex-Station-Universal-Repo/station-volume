@@ -27,8 +27,9 @@ with tempfile.TemporaryDirectory(prefix='station-volume-guard-') as temporary:
         return run('check-write').returncode == 0 and run('check-write').stdout.strip() == 'ok'
 
     models = [
-        # Mini2: old exact build, then the qualified current build + compatible.
-        ('0.369.1.46.4778262955.20261013.160', b'yandex,station-mini2\0amlogic,axg\0'),
+        # Previously verified Midi build (commercial Midi is yandex,cucumber),
+        # then the qualified Mini2 build.
+        ('0.369.1.46.4778262955.20261013.160', b'yandex,cucumber\0amlogic,axg\0'),
         ('0.369.1.50.4794659041.20261021.299', b'yandex,station-mini2\0amlogic,axg\0'),
         # Lite2 .187 and .196, exact builds and their own compatible strings.
         ('0.369.1.50.4795647582.20261021.133', b'yandex,plum-evt2\0yandex,plum\0amlogic,axg\0'),
@@ -39,7 +40,7 @@ with tempfile.TemporaryDirectory(prefix='station-volume-guard-') as temporary:
     for fw_text, dt_bytes in models:
         assert allowed(fw_text, dt_bytes), fw_text
         # The same build must not be accepted on a different compatible board.
-        assert not allowed(fw_text, b'yandex,cucumber\0amlogic,axg\0'), fw_text
+        assert not allowed(fw_text, b'yandex,unknown-board\0amlogic,axg\0'), fw_text
     assert not calls.exists(), 'check-write must never reach the helper'
 
     fw.write_text('0.369.1.50.4795647582.20261021.133')

@@ -9,8 +9,9 @@ check_write() {
  build=$(cat /system/vendor/quasar/version_full 2>/dev/null || true)
  compatible=$(tr '\000' ' ' < /proc/device-tree/compatible 2>/dev/null || true)
  case "$build" in
+  # Previously verified Midi build; the commercial Midi reports yandex,cucumber.
   0.369.1.46.4778262955.20261013.160)
-   case " $compatible " in *" yandex,station-mini2 "*) return 0;; esac
+   case " $compatible " in *" yandex,cucumber "*) return 0;; esac
    ;;
   0.369.1.50.4794659041.20261021.299)
    case " $compatible " in *" yandex,station-mini2 "*) return 0;; esac

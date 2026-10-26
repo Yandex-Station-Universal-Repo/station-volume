@@ -19,7 +19,7 @@ jobs:
           go-version-file: go.mod
       - run: go vet ./...
       - run: go test -race -count=1 ./...
-      - run: python3 test_wrapper.py
+      - run: python3 test_wrapper.py && python3 test_mini2_guard.py
       - run: sh -n station-volume.sh && sh -n build.sh
       - name: Tag matches plugin.toml version
         if: startsWith(github.ref, 'refs/tags/')
