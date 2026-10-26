@@ -1,16 +1,14 @@
 id = "station-volume"
 name = "Station volume"
-version = "1.0.0"
+version = "1.0.1+mini2.20261026"
 entry = "station-volume.sh"
-description = "Громкость станции через Quasar, как кнопки: get, watch, set N"
+description = "Upstream native-volume with exact verified Midi/Mini2 firmware guards."
 permissions = ["exec"]
-
 [launch]
 kind = "binary"
 mode = "oneshot"
 path = "station-volume.sh"
 interpreter = "sh"
-
 [compatibility]
-models = ["yandexmidi"]
+models = ["yandexmidi", "yandexmini_2"]
 features = ["arch.aarch64"]
