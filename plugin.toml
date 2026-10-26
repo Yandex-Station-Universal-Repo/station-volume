@@ -1,8 +1,8 @@
 id = "station-volume"
 name = "Station volume"
-version = "1.0.1+mini2.20261026"
+version = "1.0.2+all4.20261026"
 entry = "station-volume.sh"
-description = "Upstream native-volume with exact verified Midi/Mini2 firmware guards."
+description = "Upstream native-volume with exact verified Midi/Mini2/Lite2/Station2 firmware guards."
 permissions = ["exec"]
 [launch]
 kind = "binary"
@@ -10,5 +10,5 @@ mode = "oneshot"
 path = "station-volume.sh"
 interpreter = "sh"
 [compatibility]
-models = ["yandexmidi", "yandexmini_2"]
+models = ["yandexmidi", "yandexmini_2", "yandexplum", "plum", "yandexstation_2"]
 features = ["arch.aarch64"]
