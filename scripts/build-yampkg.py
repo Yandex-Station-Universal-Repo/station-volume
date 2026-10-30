@@ -17,6 +17,7 @@ def main():
     p.add_argument('--profiles', type=Path, required=True)
     p.add_argument('--work-dir', type=Path, required=True)
     p.add_argument('--output', type=Path, required=True)
+    p.add_argument('--upx', type=Path, help='optional UPX binary for the static AArch64 helper')
     a = p.parse_args()
     root = Path(__file__).resolve().parent.parent
     if not re.fullmatch(r'[a-z0-9-]{1,64}', a.namespace): p.error('invalid namespace')
@@ -28,6 +29,9 @@ def main():
     payload = a.work_dir/'payload'; (payload/'bin').mkdir(parents=True)
     shutil.copyfile(a.native_volume, payload/'bin/native-volume')
     (payload/'bin/native-volume').chmod(0o755)
+    if a.upx is not None:
+        subprocess.run([str(a.upx.resolve()), '--best', str(payload/'bin/native-volume')], check=True)
+        subprocess.run([str(a.upx.resolve()), '-t', str(payload/'bin/native-volume')], check=True)
     for name in ['station-volume.sh', 'LICENSE']:
         shutil.copyfile(root/name, payload/name)
     (payload/'station-volume.sh').chmod(0o755)
