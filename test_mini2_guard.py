@@ -31,6 +31,7 @@ with tempfile.TemporaryDirectory(prefix='station-volume-guard-') as temporary:
         # then the qualified Mini2 build.
         ('0.369.1.46.4778262955.20261013.160', b'yandex,cucumber\0amlogic,axg\0'),
         ('0.369.1.50.4794659041.20261021.299', b'yandex,station-mini2\0amlogic,axg\0'),
+        ('0.369.1.46.4793643989.20261020.299', b'yandex,station-mini2\0amlogic,axg\0'),
         # Lite2 .187 and .196, exact builds and their own compatible strings.
         ('0.369.1.50.4795647582.20261021.133', b'yandex,plum-evt2\0yandex,plum\0amlogic,axg\0'),
         ('0.369.1.50.4794654278.20261021.133', b'yandex,prune-evt2\0yandex,prune\0amlogic,axg\0'),

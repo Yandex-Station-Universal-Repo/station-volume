@@ -3,6 +3,8 @@
 # Mini2: typed30->25->30; Lite2: 80->60->80 and 70->50->70; Station2:
 # 75->55->75 acknowledgement/restoration verified 26.10.2026. Other
 # firmware/models are NOT inferred compatible from these tests.
+# Mini 2 .46 build 4793643989: native 80->75->80 and AirPlay readback/stock
+# indication qualified on 2026-11-02; the exact build and board remain required.
 set -eu
 here=$(dirname "$0")
 check_write() {
@@ -13,7 +15,7 @@ check_write() {
   0.369.1.46.4778262955.20261013.160)
    case " $compatible " in *" yandex,cucumber "*) return 0;; esac
    ;;
-  0.369.1.50.4794659041.20261021.299)
+  0.369.1.46.4793643989.20261020.299|0.369.1.50.4794659041.20261021.299)
    case " $compatible " in *" yandex,station-mini2 "*) return 0;; esac
    ;;
   # Lite 2: typed VolumeSet 80->60->80 / 70->50->70 acknowledged 26.10.2026.

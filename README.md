@@ -1,5 +1,11 @@
 # station-volume
 
+Проверена также Mini 2 на точной прошивке
+`0.369.1.46.4793643989.20261020.299` с DT `yandex,station-mini2`: штатная
+громкость, readback и индикация, включая двустороннюю интеграцию с AirPlay.
+Другие сборки `.46` автоматически не разрешаются.
+[Результаты проверки](docs/INTEGRATION.md#mini-2-46--2-ноября-2026).
+
 Интеграции могут проверить запись без побочных эффектов: `station-volume.sh
 check-write` сверяет точную модель/firmware с существующим allowlist, не открывая
 IPC и не меняя громкость. Возвращает `ok` при разрешённой записи, иначе ненулевой
@@ -16,7 +22,7 @@ yam run station-volume -- set 45         # шаг 5%, ждёт подтверж�
 yam run -d station-volume -- watch      # в фоне: изменения в yam logs station-volume, остановить yam stop station-volume
 ```
 
-Чтение работает везде, где в `/system/vendor/quasar/quasar.cfg` есть порты `stereo_pair` и `iohub_clients`. Запись разрешена только на проверенной сборке `0.369.1.46.4778262955.20261013.160`; на другой нужен `set N --force`.
+Чтение работает везде, где в `/system/vendor/quasar/quasar.cfg` есть порты `stereo_pair` и `iohub_clients`. Запись разрешена только для точных проверенных пар прошивки и платы из [списка совместимости](docs/INTEGRATION.md#verified-builds). Неизвестная сборка отклоняется; `--force` не поддерживается.
 
 Протокол. Состояние читается из `stereo_pair`: сообщение 198, поле `state.11` (`6` — процент float32, `3` — mute). Команда идёт в `iohub_clients`: `IOControl.external_directives.directive_list` → `TDirective{name="volume_set", DirectiveType=VolumeSet(254), PercentLevel, Source=Button}`. Поля взяты из [v3rt3p/quasar-protos](https://github.com/v3rt3p/quasar-protos); обёртка (поле 252 с телом, 253 с типом) выведена из наблюдения за потоками Midi. Учётные данные, микшер и другие сервисы не трогаются.
 
